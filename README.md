@@ -23,8 +23,16 @@
   [![Sponsors on Open Collective](https://opencollective.com/nest/sponsors/badge.svg)](https://opencollective.com/nest#sponsor)-->
 
 ##
+
 nest-skeleton-essentials
+
+```
 (winston logging, fileattach, auth, signup, login, jwt, user, middleware, response formatting)
+```
+
+```
+need secret after clone
+```
 
 ## Description
 
