@@ -6,7 +6,7 @@ import { LocalStrategy } from './local.strategy'; // ID PW 틀리면 Unauth 에�
 import { AuthController } from './auth.controller';
 import { JwtModule } from '@nestjs/jwt';
 // import { jwtConstants } from './constants';
-import { jwtConstants } from 'src/secret/jwtCont';
+// import { jwtConstants } from 'src/secret/jwtCont';
 import { JwtStrategy } from './jwt.strategy'; // added
 import { UsersService } from 'src/users/users.service';
 import { JwtUserStrategy } from './jwtuser.strategy';
@@ -16,7 +16,7 @@ import { JwtUserStrategy } from './jwtuser.strategy';
     UsersModule,
     PassportModule,
     JwtModule.register({
-      secret: jwtConstants.secret,
+      secret: process.env.JWT_SECRET, // jwtConstants.secret,
       signOptions: { expiresIn: '86400s' },
     }),
   ],
