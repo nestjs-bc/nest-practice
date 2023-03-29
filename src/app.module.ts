@@ -16,6 +16,7 @@ import { APP_FILTER } from '@nestjs/core';
 import { FilesModule } from './files/files.module';
 import { LoggerMiddleware } from './utils/logger.middleware';
 import { AuthController } from './auth/auth.controller';
+import { AppController } from './app.controller';
 // const defaultOptions = {
 //   host: 'localhost',
 //   port: 3306,
@@ -56,6 +57,7 @@ import { AuthController } from './auth/auth.controller';
       ],
     }),
   ],
+  controllers: [AppController],
   providers: [
     {
       provide: APP_FILTER,

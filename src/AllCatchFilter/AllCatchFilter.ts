@@ -20,7 +20,7 @@ export class AllCatchFilter implements ExceptionFilter {
     const ctx = host.switchToHttp();
     const res = ctx.getResponse<Response>();
     const req = ctx.getRequest<Request>();
-
+    console.log(exception, 'in all catcher');
     if (!(exception instanceof HttpException)) {
       exception = new InternalServerErrorException();
     }

@@ -1,6 +1,10 @@
-import { Controller } from '@nestjs/common';
+import { Controller, Get } from '@nestjs/common';
 
-@Controller()
+@Controller('/')
 export class AppController {
+  @Get('')
+  healthCheck(): string {
+    return 'im healthy';
+  }
   // constructor(private readonly appService: AppService) {}
 }
