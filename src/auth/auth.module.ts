@@ -11,7 +11,8 @@ import { JwtStrategy } from './jwt.strategy'; // added
 import { UsersService } from 'src/users/users.service';
 import { JwtUserStrategy } from './jwtuser.strategy';
 import { ConfigModule, ConfigService } from '@nestjs/config';
-
+import { JwtSuperStrategy } from './jwtsuper.strategy';
+import { JwtManagerStrategy } from './jwtmanager.strategy';
 
 @Module({
   imports: [
@@ -35,6 +36,8 @@ import { ConfigModule, ConfigService } from '@nestjs/config';
     JwtStrategy,
     UsersService,
     JwtUserStrategy,
+    JwtSuperStrategy,
+    JwtManagerStrategy,
   ],
   exports: [AuthService],
 })

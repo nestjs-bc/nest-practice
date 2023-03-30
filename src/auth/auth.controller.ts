@@ -9,6 +9,7 @@ import {
   UseFilters,
   UseInterceptors,
   Req,
+  UnauthorizedException,
 } from '@nestjs/common';
 import { LocalAuthGuard } from './local-auth.guard';
 import { AuthService } from './auth.service';
@@ -20,6 +21,7 @@ import { TransformInterceptor } from 'src/utils/transform.Intercepter';
 import { UsersService } from 'src/users/users.service';
 import { JwtAuthGuard } from './jwt-auth.guard';
 import { JwtUserAuthGuard } from './jwtuser-auth.guard';
+import { JwtSuperAuthGuard } from './jwtsuper-auth.guard';
 
 @Controller('auth')
 @UseInterceptors(TransformInterceptor)
@@ -31,24 +33,51 @@ export class AuthController {
   ) {}
 
   @UseGuards(LocalAuthGuard)
-  @Post('login')
-  async login(@Request() req) {
+  @Post('front/login')
+  async frontLogin(@Request() req) {
     //this.printWinstonLog(req.user); //console.log(req);
     const result = await this.authService.login(req.user);
     return { message: 'Logged in, Successfully', result };
   }
 
-  @Post('signup')
-  async signup(@Body() user: User) {
+  @UseGuards(JwtUserAuthGuard)
+  @Get('front/me')
+  async frontMe(@Request() req) {
+    const result = req.user;
+    return { message: 'Successful', result };
+  }
+
+  @UseGuards(LocalAuthGuard)
+  @Post('admin/login')
+  async adminLogin(@Request() req) {
+    //this.printWinstonLog(req.user); //console.log(req);
+    const result = await this.authService.login(req.user);
+    return { message: 'Logged in, Successfully', result };
+  }
+
+  @UseGuards(JwtUserAuthGuard)
+  @Get('admin/me')
+  async adminMe(@Request() req) {
+    const result = req.user;
+    if (result.role == 'manager' || result.role == 'super') {
+      return { message: 'Successful', result };
+    } else {
+      throw new UnauthorizedException();
+    }
+  }
+
+  @Post('front/signup')
+  async frontSignup(@Body() user: User) {
     //this.printWinstonLog(user); //console.log(req);
     const result = await this.authService.signup(user);
     return { message: 'Successful', result };
   }
 
-  @UseGuards(JwtUserAuthGuard)
-  @Get('me')
-  async mypage(@Req() req) {
-    const result = req.user;
+  @UseGuards(JwtSuperAuthGuard)
+  @Post('admin/register')
+  async adminRegister(@Body() user: User) {
+    //this.printWinstonLog(user); //console.log(req);
+    const result = await this.authService.registerManager(user);
     return { message: 'Successful', result };
   }
 

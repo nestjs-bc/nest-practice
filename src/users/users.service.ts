@@ -14,8 +14,11 @@ export class UsersService {
     private dataSource: DataSource,
   ) {}
 
-  findAll(): Promise<User[]> {
-    return this.usersRepository.find();
+  findAll(where, order): Promise<User[]> {
+    return this.usersRepository.find({
+      where: where,
+      order: order,
+    });
   }
 
   findOne(email: string): Promise<User> {

@@ -31,7 +31,12 @@ export class AuthService {
   }
 
   async signup(user: User) {
-    // 유저 비밀번호 암호화 로직 구현.
+    await this.usersService.create(user);
+    return user.email;
+  }
+
+  async registerManager(user: User) {
+    user.role = 'manager';
     await this.usersService.create(user);
     return user.email;
   }
