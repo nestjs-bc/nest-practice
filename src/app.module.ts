@@ -17,6 +17,7 @@ import { FilesModule } from './files/files.module';
 import { LoggerMiddleware } from './utils/logger.middleware';
 import { AuthController } from './auth/auth.controller';
 import { AppController } from './app.controller';
+import { ProductModule } from './product/product.module';
 // const defaultOptions = {
 //   host: 'localhost',
 //   port: 3306,
@@ -56,6 +57,7 @@ import { AppController } from './app.controller';
         dailyRotateLogger,
       ],
     }),
+    ProductModule,
   ],
   controllers: [AppController],
   providers: [
