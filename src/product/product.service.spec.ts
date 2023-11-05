@@ -9,8 +9,6 @@ import {createMock} from "@golevelup/ts-jest";
 describe('ProductService', () => {
   let service: ProductService;
   let productsRepository: Repository<Product>;
-  const mock = new Map();
-  mock.set('ProductRepository', Repository<Product>);
 
   let id: number;
   let productId: string;
@@ -30,9 +28,13 @@ describe('ProductService', () => {
     const module: TestingModule = await Test.createTestingModule({
       providers: [
         ProductService,
+        {
+          provide: getRepositoryToken(Product),
+          useValue: createMock<Repository<Product>>(),
+        }
       ],
     })
-      .useMocker((token) => createMock(mock.get(token)))
+      .useMocker(createMock)
       .compile();
     service = module.get<ProductService>(ProductService);
     productsRepository = module.get<Repository<Product>>(getRepositoryToken(Product));
