@@ -10,7 +10,7 @@ export class ProductService {
 
   constructor(
     @InjectRepository(Product)
-    private readonly productsRepository: Repository<Product>
+    private readonly productsRepository: Repository<Product>,
   ) {
   }
 
