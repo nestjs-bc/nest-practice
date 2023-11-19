@@ -1,19 +1,18 @@
 export class CreateProductDto {
+  private readonly productId: string;
 
-  private readonly _productId: string;
-
-  private readonly _productName: string;
+  private readonly productName: string;
 
   constructor(productId: string, productName: string) {
-    this._productId = productId;
-    this._productName = productName;
+    this.productId = productId;
+    this.productName = productName;
   }
 
-  get productId(): string {
-    return this._productId;
+  getProductId() {
+    return this.productId;
   }
 
-  get productName(): string {
-    return this._productName;
+  getProductName() {
+    return this.productName;
   }
 }

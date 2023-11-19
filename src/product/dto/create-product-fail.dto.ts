@@ -1,5 +1,4 @@
 export class CreateProductFailDto {
-
   private readonly _productId: string;
 
   private readonly _productName: string;
