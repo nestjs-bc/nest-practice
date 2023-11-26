@@ -63,7 +63,7 @@ import * as path from 'path';
     ServeStaticModule.forRoot({
       rootPath: path.join(__dirname, '..'),
       serveStaticOptions: {
-        dotfiles: 'allow', // @DONT
+        // dotfiles: 'allow', // @DONT
       },
     }),
     ProductModule,
