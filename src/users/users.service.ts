@@ -2,7 +2,8 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { DataSource, Entity, Repository } from 'typeorm';
 import { Injectable } from '@nestjs/common';
 import { User } from './user.entity';
-import { PwTransformer } from 'src/utils/PwTransformer';
+import { transformPw } from 'src/utils/PwTransformer';
+import { encryptUserData } from 'src/utils/cypher';
 
 //export type User = any;
 
@@ -31,8 +32,10 @@ export class UsersService {
   }
 
   async create(user: User) {
-    await PwTransformer(user);
-    const userData = this.usersRepository.create(user);
+    user.password = await transformPw(user.password);
+    // 암호화 로직
+    const user_ = await encryptUserData(user);
+    const userData = this.usersRepository.create(user_);
     const queryRunner = this.dataSource.createQueryRunner();
 
     await queryRunner.connect();

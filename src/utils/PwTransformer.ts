@@ -1,9 +1,9 @@
 import * as bcrypt from 'bcrypt';
 import { User } from 'src/users/user.entity';
 
-export const PwTransformer = async (user: User): Promise<void> => {
-  user.password = await bcrypt.hash(user.password, 10);
-  return Promise.resolve();
+export const transformPw = async (password: string) => {
+  const hashed = await bcrypt.hash(password, 10);
+  return hashed;
 };
 
 export const PwCompare = async (pass, user: User) => {

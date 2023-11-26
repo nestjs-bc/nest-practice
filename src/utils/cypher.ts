@@ -1,25 +1,35 @@
-// import { createCipheriv, createDecipheriv, randomBytes, scrypt } from 'crypto';
-// import { promisify } from 'util';
+import { createCipheriv, createDecipheriv, randomBytes, scrypt } from 'crypto';
+import { User } from 'src/users/user.entity';
+import { promisify } from 'util';
 
-// const password = 'Password used to generate key';
-// const key = (await promisify(scrypt)(password, 'salt', 32)) as Buffer;
-// const iv = randomBytes(16);
+const password = 'Password used to generate key';
+const iv = randomBytes(12);
 
-// export const encrypt = async (text) => {
-//   const cipher = createCipheriv('aes-256-ctr', key, iv);
-//   const textToEncrypt = 'Nest';
-//   const encryptedText = Buffer.concat([
-//     cipher.update(textToEncrypt),
-//     cipher.final(),
-//   ]);
-//   return encryptedText;
-// };
+export const encrypt = async (text) => {
+  const key = (await promisify(scrypt)(password, 'salt', 32)) as Buffer;
+  const cipher = createCipheriv('aes-256-ctr', key, iv);
+  const encryptedText = Buffer.concat([cipher.update(text), cipher.final()]);
+  return encryptedText.toString('base64');
+};
 
-// export const decrypt = async (text) => {
-//   const decipher = createDecipheriv('aes-256-ctr', key, iv);
-//   const decryptedText = Buffer.concat([
-//     decipher.update(text),
-//     decipher.final(),
-//   ]);
-//   return decryptedText;
-// };
+export const decrypt = async (text) => {
+  const key = (await promisify(scrypt)(password, 'salt', 32)) as Buffer;
+  const decipher = createDecipheriv('aes-256-ctr', key, iv);
+  const decryptedText = Buffer.concat([
+    decipher.update(Buffer.from(text, 'base64')),
+    decipher.final(),
+  ]);
+  return decryptedText.toString();
+};
+
+// 사용자 데이터 암호화
+export const encryptUserData = async (user: User) => {
+  user.email = await encrypt(user.email);
+  return user;
+};
+
+// 사용자 데이터 복호화
+export const decryptUserData = async (user: User) => {
+  user.email = await decrypt(user.email);
+  return user;
+};
