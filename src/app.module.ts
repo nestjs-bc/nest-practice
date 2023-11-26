@@ -19,6 +19,8 @@ import { AuthController } from './auth/auth.controller';
 import { AppController } from './app.controller';
 import { ProductModule } from './product/product.module';
 import { SampleModule } from './sample/sample.module';
+import { ServeStaticModule } from '@nestjs/serve-static';
+import * as path from 'path';
 // const defaultOptions = {
 //   host: 'localhost',
 //   port: 3306,
@@ -57,6 +59,12 @@ import { SampleModule } from './sample/sample.module';
         }),
         dailyRotateLogger,
       ],
+    }),
+    ServeStaticModule.forRoot({
+      rootPath: path.join(__dirname, '..'),
+      serveStaticOptions: {
+        dotfiles: 'allow', // @DONT
+      },
     }),
     ProductModule,
     SampleModule,
